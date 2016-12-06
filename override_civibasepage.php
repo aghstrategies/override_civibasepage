@@ -13,12 +13,12 @@
  * @package           Override_civibasepage
  *
  * @wordpress-plugin
- * Plugin Name:       Override Cvibasepage
- * Plugin URI:         http://github.com/aghstrategies/override_civibasepage
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Plugin Name:       Override Civibasepage
+ * Plugin URI:        http://github.com/aghstrategies/override_civibasepage
+ * Description:       wordpress plugin to allow one to pick the template used for a civi frontend workflow
  * Version:           1.0.0
  * Author:            Alice Frumin
- * Author URI:         http://aghstrategies.com/
+ * Author URI:        http://aghstrategies.com/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       override_civibasepage
@@ -81,7 +81,7 @@ function run_override_civibasepage() {
  */
 function oc_select_template($template) {
 	if (basename(get_permalink()) == 'iware') {
-		return 'temblate-blank.php';
+		return 'template-blank.php';
 	}
 	else {
 		return $template;
