@@ -81,14 +81,10 @@ function run_override_civibasepage() {
  */
 function oc_select_template($template) {
 	$ocb_settings = get_option('ocb_settings');
-	$slugs = explode(',', $ocb_settings['ocb_text_field_0']);
-	function trim_value(&$value) {
-	  $value = trim($value);
-	}
-	$slugs = array_walk($slugs, 'trim_value');
+	$slug = explode(',', $ocb_settings['ocb_text_field_0']);
 	$templateChosen = $ocb_settings['ocb_text_field_1'];
 	$pageSlug = basename(get_permalink());
-	if (in_array($pageSlug, $slugs)) {
+	if (in_array($pageSlug, $slug)) {
 		return $templateChosen;
 	}
 	else {
