@@ -80,12 +80,105 @@ function run_override_civibasepage() {
  * @return [type] [description]
  */
 function oc_select_template($template) {
-	if (basename(get_permalink()) == 'iware') {
-		return 'template-blank.php';
+	$ocb_settings = get_option('ocb_settings');
+	$slugs = explode(',', $ocb_settings['ocb_text_field_0']);
+	function trim_value(&$value) {
+	  $value = trim($value);
+	}
+	$slugs = array_walk($slugs, 'trim_value');
+	$templateChosen = $ocb_settings['ocb_text_field_1'];
+	$pageSlug = basename(get_permalink());
+	if (in_array($pageSlug, $slugs)) {
+		return $templateChosen;
 	}
 	else {
 		return $template;
 	}
 }
+
+// Options page
+add_action( 'admin_menu', 'ocb_add_admin_menu' );
+add_action( 'admin_init', 'ocb_settings_init' );
+
+
+function ocb_add_admin_menu(  ) {
+
+	add_options_page( 'Override CiviBasePage', 'Override CiviBasePage', 'manage_options', 'override_civibasepage', 'ocb_options_page' );
+
+}
+
+function ocb_settings_init(  ) {
+
+	register_setting( 'pluginPage', 'ocb_settings' );
+
+	add_settings_section(
+		'ocb_pluginPage_section',
+		__( 'Settings for Override CiviBasePage', 'override_civibaspage' ),
+		'ocb_settings_section_callback',
+		'pluginPage'
+	);
+
+	add_settings_field(
+		'ocb_text_field_0',
+		__( 'Slug', 'override_civibaspage' ),
+		'ocb_text_field_0_render',
+		'pluginPage',
+		'ocb_pluginPage_section'
+	);
+
+	add_settings_field(
+		'ocb_text_field_1',
+		__( 'Wordpress Template Page to be used', 'override_civibaspage' ),
+		'ocb_text_field_1_render',
+		'pluginPage',
+		'ocb_pluginPage_section'
+	);
+
+
+}
+
+
+function ocb_text_field_0_render(  ) {
+
+	$options = get_option( 'ocb_settings' );
+	?>
+	<input type='text' name='ocb_settings[ocb_text_field_0]' value='<?php echo $options['ocb_text_field_0']; ?>'>
+	<?php
+
+}
+
+
+function ocb_text_field_1_render(  ) {
+
+	$options = get_option( 'ocb_settings' );
+	?>
+	<input type='text' name='ocb_settings[ocb_text_field_1]' value='<?php echo $options['ocb_text_field_1']; ?>'>
+	<?php
+
+}
+
+
+function ocb_settings_section_callback(  ) {
+
+	echo __( 'Enter the slugs to override the civibasepage on and the wordpress theme template to use below. For more information on this Wordpress Plugin visit: <a href="https://github.com/aghstrategies/override_civibasepage" >https://github.com/aghstrategies/override_civibasepage</a>', 'override_civibaspage' );
+
+}
+
+
+function ocb_options_page(  ) {
+
+	?>
+	<form action='options.php' method='post'>
+
+		<?php
+		settings_fields( 'pluginPage' );
+		do_settings_sections( 'pluginPage' );
+		submit_button();
+		?>
+
+	</form>
+	<?php
+}
+
 
 run_override_civibasepage();
