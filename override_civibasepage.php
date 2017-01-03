@@ -116,7 +116,7 @@ function ocb_settings_init(  ) {
 
 	add_settings_field(
 		'ocb_text_field_0',
-		__( 'Slug', 'override_civibaspage' ),
+		__( 'Slug (or slugs separated by commas with no spaces)', 'override_civibaspage' ),
 		'ocb_text_field_0_render',
 		'pluginPage',
 		'ocb_pluginPage_section'
@@ -124,7 +124,7 @@ function ocb_settings_init(  ) {
 
 	add_settings_field(
 		'ocb_text_field_1',
-		__( 'Wordpress Template Page to be used', 'override_civibaspage' ),
+		__( 'The file name of the Wordpress Template Page in your active theme to be used ex: page.php', 'override_civibaspage' ),
 		'ocb_text_field_1_render',
 		'pluginPage',
 		'ocb_pluginPage_section'
